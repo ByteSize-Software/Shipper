@@ -17,8 +17,7 @@ describe Shipper::FedEx do
                                      city: 'Memphis',
                                      zip: '38106')
 
-      destination = Shipper::Location.new(
-                                          name: "Cannon",
+      destination = Shipper::Location.new(name: "Cannon",
                                           company: "Treadmill Doctor",
                                           phone: "901-362-3360",
                                           address1: "1250 McIngvale Rd.",
@@ -26,6 +25,7 @@ describe Shipper::FedEx do
                                           state: "MS",
                                           city: "Hernando",
                                           zip: "38632")
+
       carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
                                    password: RSpec.configuration.credentials["fedex"]["password"],
                                    key: RSpec.configuration.credentials["fedex"]["key"],
@@ -33,8 +33,7 @@ describe Shipper::FedEx do
 
       label = carrier.create_shipment(origin, destination, packages)
       puts label.labels.first.img_data
-      File.open("test.png", "w") do |f|
-
+      File.open("test.png", "w+") do |f|
         f.write(label.labels.first.img_data)
       end
 
