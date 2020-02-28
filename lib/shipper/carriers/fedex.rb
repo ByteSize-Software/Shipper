@@ -13,7 +13,8 @@ module Shipper
     #TEST_URL = 'https://wsbeta.fedex.com:443/xml/'
    #LIVE_URL = 'https://ws.fedex.com:443/xml/'
     TEST_URL = 'https://wsbeta.fedex.com:443/xml'
-    LIVE_URL = 'https://ws.fedex.com:443/xml'
+    #LIVE_URL = 'https://ws.fedex.com:443/xml'
+    LIVE_URL = TEST_URL
 
     CARRIER_CODES = {
       "fedex_ground" => "FDXG",
@@ -197,9 +198,9 @@ module Shipper
       imperial = location_uses_imperial(origin)
 
       xml_builder = Nokogiri::XML::Builder.new do |xml|
-        xml.ProcessShipmentRequest(xmlns: 'http://fedex.com/ws/ship/v13') do
+        xml.ProcessShipmentRequest(xmlns: 'http://fedex.com/ws/ship/v25') do
           build_request_header(xml)
-          build_version_node(xml, 'ship', 13, 0 ,0)
+          build_version_node(xml, 'ship', 25, 0 ,0)
 
           xml.RequestedShipment do
             xml.ShipTimestamp(ship_timestamp(options[:turn_around_time]).iso8601(0))
