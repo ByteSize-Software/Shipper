@@ -20,8 +20,8 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
   config.add_setting :credentials
-  config.credentials = YAML.load(File.read("config/credentials.yml"))
-  
+  #config.credentials = YAML.load(File.read("config/credentials.yml"))
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods

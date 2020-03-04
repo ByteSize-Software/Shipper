@@ -26,13 +26,16 @@ describe Shipper::FedEx do
                                           city: "Hernando",
                                           zip: "38632")
 
-      carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
-                                   password: RSpec.configuration.credentials["fedex"]["password"],
-                                   key: RSpec.configuration.credentials["fedex"]["key"],
-                                   account: RSpec.configuration.credentials["fedex"]["account"])
+      carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
+                                   password: ENV["FEDEX_PASSWORD"],
+                                   key: ENV["FEDEX_KEY"],
+                                   account: ENV["FEDEX_ACCOUNT"])
 
       label = carrier.create_shipment(origin, destination, packages)
-      puts label.labels.first.img_data
+
+      #puts label.labels.first
+      puts label.labels.first.tracking_number
+      puts label.total_price
       File.open("test.png", "w+") do |f|
         f.write(label.labels.first.img_data)
       end
@@ -58,10 +61,10 @@ describe Shipper::FedEx do
                                         city: "Hernando",
                                         zip: "38632")
 
-    carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
-                                 password: RSpec.configuration.credentials["fedex"]["password"],
-                                 key: RSpec.configuration.credentials["fedex"]["key"],
-                                 account: RSpec.configuration.credentials["fedex"]["account"])
+    carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
+                                 password: ENV["FEDEX_PASSWORD"],
+                                 key: ENV["FEDEX_KEY"],
+                                 account: ENV["FEDEX_ACCOUNT"])
 
     response = carrier.find_rates(origin, destination, packages)
     expect(response.rates).to be_present
@@ -86,10 +89,10 @@ describe Shipper::FedEx do
                                         city: "Toronto",
                                         zip: "M4B 1B4")
 
-    carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
-                                 password: RSpec.configuration.credentials["fedex"]["password"],
-                                 key: RSpec.configuration.credentials["fedex"]["key"],
-                                 account: RSpec.configuration.credentials["fedex"]["account"])
+    carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
+                                password: ENV["FEDEX_PASSWORD"],
+                                key: ENV["FEDEX_KEY"],
+                                account: ENV["FEDEX_ACCOUNT"])
 
     response = carrier.find_rates(origin, destination, packages)
     expect(response.rates).to be_present
@@ -115,10 +118,10 @@ describe Shipper::FedEx do
                                           city: "Southaven",
                                           zip: "38654")
 
-      carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
-                                   password: RSpec.configuration.credentials["fedex"]["password"],
-                                   key: RSpec.configuration.credentials["fedex"]["key"],
-                                   account: RSpec.configuration.credentials["fedex"]["account"])
+      carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
+                                    password: ENV["FEDEX_PASSWORD"],
+                                    key: ENV["FEDEX_KEY"],
+                                    account: ENV["FEDEX_ACCOUNT"])
 
       response = carrier.find_rates(origin, destination, packages)
       expect(response.rates).to be_present
@@ -143,10 +146,10 @@ describe Shipper::FedEx do
                                             city: "Southaven",
                                             zip: "invalid_zip_code")
 
-        carrier = Shipper::FedEx.new(login: RSpec.configuration.credentials["fedex"]["login"],
-                                     password: RSpec.configuration.credentials["fedex"]["password"],
-                                     key: RSpec.configuration.credentials["fedex"]["key"],
-                                     account: RSpec.configuration.credentials["fedex"]["account"])
+        carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
+                                      password: ENV["FEDEX_PASSWORD"],
+                                      key: ENV["FEDEX_KEY"],
+                                      account: ENV["FEDEX_ACCOUNT"])
         begin
           response = carrier.find_rates(origin, destination, packages)
         rescue => e

@@ -557,9 +557,10 @@ module Shipper
       response_info = Hash.from_xml(response)
       tracking_number = xml.css("CompletedPackageDetails TrackingIds TrackingNumber").text
       base_64_image = xml.css("Label Image").text
+      total_price = xml.css("ProcessShipmentReply CompletedShipmentDetail ShipmentRating ShipmentRateDetails TotalNetChargeWithDutiesAndTaxes Amount").text
 
       labels = [Label.new(tracking_number, Base64.decode64(base_64_image))]
-      LabelResponse.new(success, message, response_info, {labels: labels})
+      LabelResponse.new(success, message, response_info, {labels: labels, total_price: total_price})
     end
 
     def business_days_from(date, days, is_home_delivery=false)
