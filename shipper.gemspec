@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
 
 
   spec.add_dependency("measured", ">= 2.0")
-  spec.add_dependency("active_utils", "~> 3.3.1")
+  spec.add_dependency("active_utils", ">= 3.3.1")
   spec.add_dependency("nokogiri", ">= 1.6")
 
   spec.add_development_dependency "rspec"
