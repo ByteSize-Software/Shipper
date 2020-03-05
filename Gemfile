@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in shipper.gemspec
 gemspec
 
-gem "rake", "~> 12.0"
+gem "rake", "~> 12.3"
 
 gem "nokogiri"
 
