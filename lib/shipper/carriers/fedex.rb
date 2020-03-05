@@ -13,8 +13,8 @@ module Shipper
     #TEST_URL = 'https://wsbeta.fedex.com:443/xml/'
    #LIVE_URL = 'https://ws.fedex.com:443/xml/'
     TEST_URL = 'https://wsbeta.fedex.com:443/xml'
-    #LIVE_URL = 'https://ws.fedex.com:443/xml'
-    LIVE_URL = TEST_URL
+    LIVE_URL = 'https://ws.fedex.com:443/xml'
+
 
     CARRIER_CODES = {
       "fedex_ground" => "FDXG",
