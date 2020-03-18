@@ -8,7 +8,7 @@ describe Shipper::FedEx do
       packages = []
       packages << Shipper::Package.new(10, [15, 10, 4.5], units: :imperial)
       origin = Shipper::Location.new(
-                                     name: "Cannon",
+                                     name: "Cannon Moyer",
                                      company: "Treadmill Doctor",
                                      phone: "901-362-3360",
                                      address1: "1333 Kansas St",
@@ -17,26 +17,27 @@ describe Shipper::FedEx do
                                      city: 'Memphis',
                                      zip: '38106')
 
-      destination = Shipper::Location.new(name: "Cannon",
-                                          company: "Treadmill Doctor",
-                                          phone: "901-362-3360",
+      destination = Shipper::Location.new(name: "John Doe",
+                                          phone: "901-239-2955",
                                           address1: "1250 McIngvale Rd.",
                                           country: "US",
                                           state: "MS",
                                           city: "Hernando",
                                           zip: "38632")
 
-      carrier = Shipper::FedEx.new(login: ENV["FEDEX_LOGIN"],
-                                   password: ENV["FEDEX_PASSWORD"],
-                                   key: ENV["FEDEX_KEY"],
-                                   account: ENV["FEDEX_ACCOUNT"])
+      carrier = Shipper::FedEx.new(login: ENV['LOGIN'],
+                                   password: ENV['PASSWORD'],
+                                   key: ENV['KEY'],
+                                   account: ENV['ACCOUNT'], test: true)
+
 
       label = carrier.create_shipment(origin, destination, packages)
 
       #puts label.labels.first
       puts label.labels.first.tracking_number
       puts label.total_price
-      File.open("test.png", "w+") do |f|
+
+      File.open("test.png", "w") do |f|
         f.write(label.labels.first.img_data)
       end
 
