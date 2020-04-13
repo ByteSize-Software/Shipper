@@ -483,7 +483,7 @@ module Shipper
 
     def parse_rate_response(origin, destination, packages, response, options)
       xml = build_document(response, 'RateReply')
-      File.write("test.xml", xml)
+      
       success = response_success?(xml)
       message = response_message(xml)
 
