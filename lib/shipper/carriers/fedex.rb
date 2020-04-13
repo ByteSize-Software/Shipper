@@ -413,7 +413,7 @@ module Shipper
       end
     end
 
-    def build_rate_request_types_node(xml, type = 'NONE') #SET TO LIST TO RETURN A SECOND RatedShipmentDetails node
+    def build_rate_request_types_node(xml, type = 'LIST') #SET TO LIST TO RETURN A SECOND RatedShipmentDetails node #SET AS NONE FOR DISCOUNTED RATES ONLY
       xml.RateRequestTypes(type)
     end
 
@@ -483,12 +483,13 @@ module Shipper
 
     def parse_rate_response(origin, destination, packages, response, options)
       xml = build_document(response, 'RateReply')
-
+      File.write("test.xml", xml)
       success = response_success?(xml)
       message = response_message(xml)
 
       if success
         missing_xml_field = false
+
         rate_estimates = xml.root.css('> RateReplyDetails').map do |rated_shipment|
           begin
             service_code = rated_shipment.at('ServiceType').text
@@ -502,11 +503,12 @@ module Shipper
             delivery_range = delivery_range_from(transit_time, max_transit_time, delivery_timestamp, (service_code == "GROUND_HOME_DELIVERY"), options)
 
             currency = rated_shipment.at('RatedShipmentDetails/ShipmentRateDetail/TotalNetCharge/Currency').text
-
+            total_price = rated_shipment.xpath('RatedShipmentDetails/ShipmentRateDetail/TotalNetCharge/Amount')
             RateEstimate.new(origin, destination, @@name,
                  self.class.service_name_for_code(service_type),
                  :service_code => service_code,
-                 :total_price => rated_shipment.at('RatedShipmentDetails/ShipmentRateDetail/TotalNetCharge/Amount').text.to_f,
+                 :negotiated_rate => total_price.first.text.to_f,
+                 :total_price => total_price.last.text.to_f,
                  :currency => currency,
                  :packages => packages,
                  :delivery_range => delivery_range)
